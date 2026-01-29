@@ -270,8 +270,42 @@ Mounting a drive:
 📌 Virtual machine ISO → `/media/cdrom`
 
 ---
+## 📂 Linux File System Structure — Complete Table
 
-## 🧠 Memory Hack (Never Forget This)
+| Directory | Name / Meaning | Purpose | Key Notes |
+|---------|----------------|---------|-----------|
+| `/` | Root | Starting point of the Linux file system | Everything begins here |
+| `/boot` | Boot | Bootloader files | Contains GRUB config, kernel files |
+| `/root` | Root Home | Home directory for root user | Not the same as `/` |
+| `/dev` | Devices | Device files | Disks, USB, CD-ROM, keyboard |
+| `/etc` | Editable Text Config | Configuration files | Always back up before editing |
+| `/bin` | Binary | Essential user commands | `ls`, `pwd`, `cp` (linked to `/usr/bin`) |
+| `/sbin` | System Binary | System administration commands | Disk & filesystem tools |
+| `/usr/bin` | User Binaries | Standard user commands | Most user-level commands |
+| `/usr/sbin` | System Binaries | Admin commands | Used mainly by root |
+| `/lib` | Libraries | Shared libraries | Required for commands to run |
+| `/usr/lib` | User Libraries | Application libraries | Linked from `/lib` |
+| `/opt` | Optional | Third-party applications | Oracle, SAP, custom software |
+| `/proc` | Processes | Virtual process info | Exists only while system runs |
+| `/tmp` | Temporary | Temporary files | Cleared automatically |
+| `/home` | Home | User home directories | Regular users live here |
+| `/var` | Variable | Logs & changing data | `/var/log` is critical |
+| `/run` | Runtime | Runtime process data | PID files, cleared on reboot |
+| `/mnt` | Mount | Manual mount point | External filesystems |
+| `/media` | Media | Removable media | USB, CD-ROM, ISO files |
+
+---
+
+### Memory Tip
+- **Boot problem?** → `/boot`
+- **Config issue?** → `/etc`
+- **User files?** → `/home`
+- **Logs?** → `/var/log`
+- **Running process info?** → `/proc`
+
+---
+
+## 🧠 Memory Analogy
 
 | Directory | Think of it as |
 |--------|----------------|
