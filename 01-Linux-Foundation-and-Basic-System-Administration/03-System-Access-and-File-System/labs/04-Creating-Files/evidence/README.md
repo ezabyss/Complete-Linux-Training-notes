@@ -1,97 +1,112 @@
-# 📸 Evidence – Linux File & Directory Operations Lab
+# 📸 Evidence – Creating Files and Directories (Linux Lab)
 
-This directory contains screenshots that verify the successful completion of each lab task.  
-All commands were executed inside the user’s home directory unless stated otherwise.
+This directory contains screenshots that verify the successful execution of Linux file and directory operations.
+All commands were executed by the user `ezabyss` from the home directory (`~`) unless stated otherwise.
 
 ---
 
 ## 🧪 Environment Verification
 - User: `ezabyss`
-- Working Directory: `/home/ezabyss/labs/linux-file-ops`
+- Home Directory: `/home/ezabyss`
 - Shell: Bash
 
-The commands `whoami` and `pwd` confirm the user identity and working directory before performing any operations.
-
 ---
 
-## 📝 Evidence 1: Creating Files using `touch` and `cp`
+## 1️⃣ Creating Files Using `touch`
 
-**Screenshot:** `01-creating-files-using-touch-and-cp.png`
+**Screenshot:** `01-creating-files-using-touch.png`
 
 ### Commands Executed
-- `touch file1`
-- `touch file2`
-- `cp file1 copiedfile1`
-- `cp file2 copiedfile2`
+- `touch abyss`
+- `touch Mountain Kathmandu Nepal`
 - `ls -l`
 
 ### Outcome
-- `file1` and `file2` were successfully created using `touch`
-- Copies `copiedfile1` and `copiedfile2` were created using `cp`
-- `ls -l` confirms correct ownership, permissions, and timestamps
+- An empty file named `abyss` was created
+- Multiple files (`Mountain`, `Kathmandu`, `Nepal`) were created using a single command
+- `ls -l` confirms file ownership, permissions, and timestamps
 
-✅ Task completed successfully.
+📌 Successful creation with no errors confirms correct usage of `touch`.
 
 ---
 
-## 📝 Evidence 2: Creating a File using `vi`
+## 2️⃣ Creating Files Using `cp` (Copy)
 
-**Screenshot:** `02-creating-file-using-vi.png`
+**Screenshot:** `02-creating-file-using-cp.png`
 
 ### Commands Executed
-- `vi file-using-vi`
-- `ls -l`
->to exit the vi editor press `esc` then type `:wq;` -means write and quit
+- `cp Mountain Everest`
+- `cp Kathmandu Pokhara`
+- `ls -ltr`
 
 ### Outcome
-- File `file-using-vi` was created and edited using the `vi` text editor
+- New files `Everest` and `Pokhara` were created by copying existing files
+- `ls -ltr` shows the copied files appearing later in the time-sorted list
+
+📌 Destination files inherit the content of their source files.
+
+---
+
+## 3️⃣ Creating Files Using `vi`
+
+**Screenshot:** `03-creating-file-using-vi.png`
+
+### Commands Executed
+- `vi Dang`
+- `ls`
+- `ls -ltr`
+
+### Outcome
+- File `Dang` was created and edited using the `vi` editor
 - File size confirms content was written successfully
-- Ownership and permissions are correctly assigned
+- `ls -ltr` shows `Dang` as one of the most recently modified files
 
-✅ Task completed successfully.
+📌 Demonstrates interactive file creation and editing.
 
 ---
 
-## 📝 Evidence 3: Creating a Directory using `mkdir` and Organizing Files
+## 4️⃣ Creating Directories Using `mkdir`
 
-**Screenshot:** `03-folder-using-mkdir-and-mv.png`
+**Screenshot:** `04-folder-using-mkdir.png`
 
 ### Commands Executed
-- `mkdir copiedfiles`
-- `mv copiedfile1 copiedfiles/`
-- `mv copiedfile2 copiedfiles/`
-- `ls -l`
+- `mkdir Nepal`
+- `mkdir Places Mountains`
+- `ls -ltr`
 
 ### Outcome
-- Directory `copiedfiles` was created successfully
-- Copied files were organized into the directory using `mv`
-- `ls -l` confirms directory permissions and file structure
+- Directories `Nepal`, `Places`, and `Mountains` were created
+- `ls -ltr` shows directories marked with `d` at the beginning of permissions
 
-✅ Task completed successfully.
+📌 Confirms correct directory creation using `mkdir`.
 
 ---
 
-## 📝 Evidence 4: Permission Denied while Creating File in `/etc`
+## 5️⃣ Permission Denied (System Directory Protection)
 
-**Screenshot:** `04-permission-denied.png`
+**Screenshot:** `05-permission-denied.png`
 
 ### Commands Executed
 - `cd /etc`
-- `touch ezabyss`
+- `touch test1`
+- `whoami`
 
 ### Outcome
 - File creation inside `/etc` was denied
 - Error message displayed: `Permission denied`
-- Confirms understanding of Linux permission enforcement on system directories
+- `whoami` confirms the user is not `root`
 
-✅ Expected and correct behavior observed.
-
----
-
-## 🔐 Security Insight
-Protected system directories such as `/etc` require elevated privileges.  
-Linux enforces these restrictions to prevent unauthorized configuration changes.
+📌 Demonstrates Linux permission enforcement on system-owned directories.
 
 ---
 
-**Abhishek (Ez Abyss)**
+## ✅ Evidence Summary
+This evidence confirms:
+- File creation using `touch`, `cp`, and `vi`
+- Viewing files using time-based sorting with `ls -ltr`
+- Directory creation using `mkdir`
+- Understanding of Linux permission restrictions in `/etc`
+
+---
+
+**✍️ Notes By Abhishek (Ez Abyss)**
