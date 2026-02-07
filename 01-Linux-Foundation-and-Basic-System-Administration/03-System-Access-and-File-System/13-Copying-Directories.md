@@ -120,6 +120,8 @@ Verify:
 - `ls -ltr`
 
 📌 All files are copied correctly.
+<img width="1907" height="1079" alt="image" src="https://github.com/user-attachments/assets/419f6e8d-70bb-4e7b-812d-3920c87f807d" />
+
 
 ---
 
