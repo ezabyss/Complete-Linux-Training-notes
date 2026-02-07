@@ -5,7 +5,7 @@
 
 ---
 
-## 🎯 What You’ll Learn in This Lesson
+## 🎯 What I’ll Learn in This Lesson
 - Different ways to create files
 - How to create directories
 - How to verify creation
