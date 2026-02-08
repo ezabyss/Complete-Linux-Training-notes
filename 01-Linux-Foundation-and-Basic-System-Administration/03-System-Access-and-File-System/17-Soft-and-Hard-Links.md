@@ -236,7 +236,7 @@ Hard links = multiple references.
 4. Delete source  
 5. Observe behavior with `ls -li`
 
-👉 [Lab 05: Hard and Soft Links](01-Linux-Foundation-and-Basic-System-Administration/03-System-Access-and-File-System/labs/05-Hard-and-Soft-Links)
+👉 [Lab 05: Hard and Soft Links](labs/05-Hard-and-Soft-Links)
 
 ---
 
