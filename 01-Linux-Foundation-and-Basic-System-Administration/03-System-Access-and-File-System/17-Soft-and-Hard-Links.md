@@ -188,6 +188,7 @@ Hard links = multiple references.
 ---
 
 ## Visual intuition (memorize this)
+<img width="855" height="426" alt="image" src="https://github.com/user-attachments/assets/873c18eb-0c63-4e89-a8c0-90942bf83e6e" />
 
 ### Soft link
 `Abhishek_link ──► Abhishek ──► inode ──► data`
