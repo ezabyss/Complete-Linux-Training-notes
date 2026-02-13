@@ -159,7 +159,7 @@ Append content:
 `echo Extra line >> Nepal`
 
 Check again:
-`ls -l Jerry`
+`ls -l Nepal`
 
 Notice:
 File size increases.
