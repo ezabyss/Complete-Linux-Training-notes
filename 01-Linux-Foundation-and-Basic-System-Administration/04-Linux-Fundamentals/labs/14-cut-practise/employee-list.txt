@@ -1,0 +1,6 @@
+ID,Name,Department,Age,District
+301,Sita Karki,IT,23,Dang
+302,Ramesh Shrestha,HR,29,Bardiya
+303,Binita Gurung,Finance,26,Banke
+304,Sanjay Thapa,Marketing,31,Kailali
+305,Anjali Rai,IT,24,Kanchanpur
