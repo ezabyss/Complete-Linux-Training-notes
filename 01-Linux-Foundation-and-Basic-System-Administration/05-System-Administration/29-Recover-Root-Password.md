@@ -1,96 +1,82 @@
-# 🔐 Recovering Root Password in Linux
+# 🔐 Recovering Root Password in Modern Linux (RHEL 7/8/9, Rocky, Alma)  
+
 
 ---
 
-# 🎯 Why Root Password Recovery Matters
+# 🎯 Why This Still Matters in Modern Linux
 
-Every system administrator will eventually face this situation:
+Even today, admins lose root access due to:
 
-- Password expired and forgotten
-- Mistyped password during change (fat-finger error)
-- Inherited system with unknown root password
-- Compliance policy required password change
+- Password rotation policies
+- Mistyped password (fat finger)
+- Taking over old servers
+- Security compliance requirements
 
-Problem:
+And remember:
 
-To change root password, you must be root.  
-But to become root, you need the password.
+You cannot run:
 
-Classic Catch-22.
+`passwd root`
+
+Unless you are already root.
+
+So we must boot into recovery mode.
 
 ---
 
-# ⚠ Critical Requirement
+# ⚠ CRITICAL REQUIREMENT
 
 You MUST have:
 
-- Physical console access
-OR
-- Direct VM console access (VirtualBox, VMware, Cloud Console)
+- Physical console access  
+OR  
+- Direct hypervisor console (VMware / VirtualBox / Cloud console)
 
-⚠ This cannot be done over normal SSH if password is unknown.
-
----
-
-# 🧠 High-Level Recovery Process
-
-1. Reboot system
-2. Interrupt GRUB boot menu
-3. Edit kernel parameters
-4. Boot into single-user mode
-5. Remount filesystem as read-write
-6. Change root password
-7. Reboot normally
+❌ This cannot be done over normal SSH.
 
 ---
 
-# 🚀 Step-by-Step Recovery (CentOS / RHEL 7)
+# 🧠 Version Differences Overview
+
+| Version | Recovery Method |
+|----------|----------------|
+| RHEL/CentOS 7 | Modify `ro` → `rw init=/sysroot/bin/sh` |
+| RHEL/Rocky/Alma 8 | Use `rd.break` |
+| RHEL/Rocky/Alma 9 | Use `rd.break` (same as 8) |
+
+Modern systems use **systemd**, not traditional runlevels.
 
 ---
 
-## 🔹 Step 1 – Reboot System
+# 🚀 METHOD 1 — RHEL / CentOS 7
+
+---
+
+## 🔹 Step 1 – Reboot
 
 `reboot`
 
-You must be physically present or using console.
+Interrupt GRUB.
 
 ---
 
-## 🔹 Step 2 – Interrupt GRUB Menu
+## 🔹 Step 2 – Edit GRUB Entry
 
-When GRUB menu appears:
+At GRUB menu:
 
-Press `e` to edit boot entry.
+Press `e`
 
-⚠ You must act quickly (default timeout ~5 seconds).
-
----
-
-## 🔹 Step 3 – Modify Kernel Line
-
-Find line that contains:
+Find the line that contains:
 
 `ro`
 
-This means system mounts as read-only.
-
-Replace `ro` with:
+Replace it with:
 
 `rw init=/sysroot/bin/sh`
 
-Example modification:
-
-Change:
-
-ro
-
-To:
-
-rw init=/sysroot/bin/sh
-
 ---
 
-## 🔹 Step 4 – Boot With Modified Parameters
+## 🔹 Step 3 – Boot
 
 Press:
 
@@ -100,105 +86,151 @@ System boots into emergency shell.
 
 ---
 
-# 🔹 Step 5 – Mount System Properly
-
-Remount root filesystem:
+## 🔹 Step 4 – Mount System Properly
 
 `chroot /sysroot`
 
-This makes `/sysroot` your active root environment.
-
 ---
 
-# 🔹 Step 6 – Change Root Password
+## 🔹 Step 5 – Change Password
 
 `passwd`
 
-Enter new root password.
-
-You should see:
-
-Password updated successfully.
-
 ---
 
-# 🔹 Step 7 – Exit and Reboot
-
-Exit chroot:
+## 🔹 Step 6 – Exit & Reboot
 
 `exit`
 
-Then reboot:
-
 `reboot`
-
-System starts normally.
-
-Login with new root password.
 
 ---
 
-# 🆕 For RHEL 8 / CentOS 8 / 9
+# 🚀 METHOD 2 — RHEL / Rocky / Alma / CentOS Stream 8 & 9 (Modern Method)
 
-Instead of modifying `ro`, add at end of kernel line:
+This is the most common modern recovery method.
+
+---
+
+## 🔹 Step 1 – Reboot
+
+`reboot`
+
+Interrupt GRUB menu.
+
+---
+
+## 🔹 Step 2 – Edit GRUB Entry
+
+Press:
+
+`e`
+
+Go to the line starting with:
+
+`linux`
+
+At the END of that line, add:
 
 `rd.break`
 
-Then:
+Do NOT remove anything.
 
-Press `Ctrl + X`
-
-After boot:
-
-Remount filesystem:
-
-`mount -o remount,rw /sysroot`
-
-Then:
-
-`chroot /sysroot`
-
-Change password:
-
-`passwd`
-
-Create SELinux autorelabel file:
-
-`touch /.autorelabel`
-
-Exit and reboot:
-
-`exit`
-`reboot`
+Just append it.
 
 ---
 
-# 🧠 Why SELinux Relabel Is Needed (Newer Systems)
+## 🔹 Step 3 – Boot
 
-If SELinux is enabled, after password change:
+Press:
+
+`Ctrl + X`
+
+System boots into emergency mode.
+
+You will land in:
+
+`switch_root:/#`
+
+---
+
+## 🔹 Step 4 – Remount Filesystem as Read-Write
+
+`mount -o remount,rw /sysroot`
+
+---
+
+## 🔹 Step 5 – Enter Real Root Environment
+
+`chroot /sysroot`
+
+---
+
+## 🔹 Step 6 – Change Root Password
+
+`passwd`
+
+Enter new password.
+
+---
+
+## 🔹 Step 7 – Fix SELinux (VERY IMPORTANT)
+
+Modern systems use SELinux.
 
 You must run:
 
 `touch /.autorelabel`
 
-Or system may fail to boot properly.
+If you skip this step:
+
+System may fail to boot properly.
 
 ---
 
-# 🎓 Rapid-Fire Answers
+## 🔹 Step 8 – Exit and Reboot
 
-### ❓ How do you recover root password?
-Reboot → Edit GRUB → Boot into single-user → Change password → Reboot.
+`exit`
 
-### ❓ Why can’t you just run `passwd root`?
-Because you must already be root to do that.
+`exit`
 
-### ❓ Why is console access required?
-Because SSH requires password authentication first.
+System reboots.
 
 ---
 
-# ⚠ Security Consideration
+# 🔍 Why SELinux Relabel is Required
+
+Changing password modifies system files.
+
+SELinux must relabel them.
+
+The command:
+
+`touch /.autorelabel`
+
+Tells system to relabel during next boot.
+
+---
+
+# 🆕 Modern Alternative (If systemctl Rescue Mode Available)
+
+Some systems allow:
+
+At GRUB, append:
+
+`systemd.unit=rescue.target`
+
+Then:
+
+Boot → Enter root password (if known).
+
+But this does NOT work if password is forgotten.
+
+So `rd.break` remains standard.
+
+---
+
+# 🛡 Security Note (Very Important)
 
 If someone has:
 
@@ -207,38 +239,53 @@ If someone has:
 
 They can reset root password.
 
-Solution:
+To protect systems:
 
-- Secure server room
-- Use BIOS password
-- Encrypt disk
-- Secure cloud console access
+- Secure BIOS with password
+- Encrypt disks (LUKS)
+- Restrict console access
+- Use full disk encryption
 
 ---
 
-# 🧠 Professional Mindset
+# 🎓 Rapid-Fire Answers (Modern)
 
-Good administrators:
+### ❓ How do you recover root password in RHEL 8/9?
+Reboot → Edit GRUB → Append `rd.break` → Remount → `chroot` → `passwd` → `touch /.autorelabel` → Reboot.
 
-- Document recovery steps
-- Practice in lab
-- Understand differences between versions
-- Verify SELinux behavior
+### ❓ Why is SELinux relabel required?
+To restore correct file security contexts.
+
+### ❓ Can this be done over SSH?
+No.
+
+---
+
+# 🧠 Professional Workflow Checklist
+
+Before performing recovery:
+
+- Confirm physical console access
+- Confirm correct machine
+- Document changes
+- Test in lab first
+
+Never attempt first time in production.
 
 ---
 
 # 🏁 Final Takeaway
 
-Root password recovery:
+Root password recovery in modern Linux:
 
-- Is a real-world task
-- Requires calm execution
+- Requires GRUB modification
 - Requires console access
-- Is a must-know skill
+- Requires SELinux relabel in 8/9
+- Is a must-know admin skill
 
-Practice it in your lab.
+Practice this in lab environment.
 
-Never practice first time in production.
+This is a real-world scenario.
 
 ---
 
