@@ -182,8 +182,8 @@ Run the script:
 
 Output:
 ```
-My first name is ezabyss
-My surname is Abhishek
+My nick name is ezabyss
+My real name is Abhishek
 My class is Linux class
 ```
 
